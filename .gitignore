@@ -1,0 +1,28 @@
+# Dependencies, builds and local hosting metadata
+node_modules/
+dist/
+coverage/
+.vercel/
+
+# Generated checks and browser artifacts
+output/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Secrets (keep an intentionally sanitized example)
+.env*
+!.env.example
+
+# Caches, logs and temporary files
+.vite/
+.cache/
+.eslintcache
+*.log
+*.log.*
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+.DS_Store
