@@ -79,7 +79,7 @@ export function RSVP() {
                     checked={form.attendance === 'yes'}
                     onChange={() => setForm({ ...form, attendance: 'yes' })}
                   />
-                  <span>Так, я буду ↗</span>
+                  <span>Так, я буду</span>
                 </label>
                 <label className={form.attendance === 'no' ? 'selected' : ''}>
                   <input
@@ -139,7 +139,7 @@ export function RSVP() {
               </p>
             )}
             <button className="button button-lime submit" type="submit">
-              Зберегти мою відповідь <span>↗</span>
+              Зберегти мою відповідь
             </button>
             <p className="storage-note">
               Відповідь збережеться лише в цьому браузері.
@@ -166,7 +166,7 @@ export function RSVP() {
               Це локальне збереження. {event.name} ще не отримала відповідь — напиши їй особисто.
             </p>
             <button className="text-link" onClick={() => setEditing(true)}>
-              Змінити відповідь ↗
+              Змінити відповідь
             </button>
           </div>
         )}

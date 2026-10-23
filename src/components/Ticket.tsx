@@ -30,9 +30,6 @@ export function Ticket() {
           aria-controls="ticket-secret"
         >
           <span>{open ? 'ПОВТОРИТИ' : 'ВІДІРВИ МЕНЕ'}</span>
-          <span className="ticket-arrow" aria-hidden="true">
-            {open ? '↺' : '↗'}
-          </span>
           <span className="barcode" aria-hidden="true" />
         </button>
       </div>

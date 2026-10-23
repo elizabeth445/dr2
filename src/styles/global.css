@@ -153,8 +153,6 @@ section {
 .header nav .nav-rsvp {
   border: 1px solid var(--ink);
   padding: 12px 20px;
-  display: flex;
-  gap: 34px;
 }
 
 .nav-rsvp:hover {
@@ -203,8 +201,7 @@ section {
   min-height: 54px;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 44px;
+  justify-content: center;
   padding: 14px 24px;
   font-size: 16px;
   border: 1px solid transparent;
@@ -216,11 +213,6 @@ section {
 
 .button:hover {
   transform: translateY(-3px);
-}
-
-.button span {
-  font-size: 24px;
-  line-height: 1;
 }
 
 .button-dark {
@@ -349,11 +341,18 @@ section {
 }
 
 .scroll-cue {
-  font-size: 28px;
   min-width: 46px;
   min-height: 46px;
   display: grid;
   place-content: center;
+}
+
+.arrow-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--ink);
 }
 
 .poster-ribbon {
@@ -557,10 +556,7 @@ section {
   width: 100%;
   height: 320px;
   object-fit: cover;
-  filter: saturate(0.8);
-  transition:
-    transform 0.5s,
-    filter 0.5s;
+  transition: transform 0.5s;
 }
 
 .photo-1 .photo-image > img {
@@ -570,29 +566,14 @@ section {
 .photo-2 .photo-image > img {
   transform: scale(1.6);
   object-position: 90% 80%;
-  filter: grayscale(1);
 }
 
 .photo-card:hover .photo-image > img {
-  filter: saturate(1.1);
   transform: scale(1.04);
 }
 
 .photo-2:hover .photo-image > img {
   transform: scale(1.65);
-  filter: grayscale(0.4);
-}
-
-.photo-expand {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: var(--paper);
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-content: center;
-  font-size: 22px;
 }
 
 .photo-caption {
@@ -842,10 +823,6 @@ section {
   font-size: 11px;
   letter-spacing: 0.1em;
   writing-mode: vertical-rl;
-}
-
-.ticket-arrow {
-  font-size: 34px;
 }
 
 .barcode {
@@ -1139,11 +1116,6 @@ section {
   line-height: 1.2;
 }
 
-.footer-arrow {
-  font-size: 110px;
-  line-height: 1;
-}
-
 .footer-bottom {
   border-top: 1px solid var(--ink);
   padding-top: 15px;
@@ -1158,6 +1130,9 @@ section {
 }
 
 .footer-bottom a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 0;
   min-height: 44px;
 }
@@ -1257,15 +1232,8 @@ section {
   border-bottom: 1px solid var(--paper);
   padding: 13px 0;
   font-size: 16px;
-  display: flex;
-  gap: 70px;
-  align-items: center;
   color: var(--paper);
   margin-bottom: 30px;
-}
-
-.opening-enter > span {
-  font-size: 25px;
 }
 
 .opening button:focus-visible {
@@ -1328,12 +1296,13 @@ section {
 }
 
 .lightbox-controls button {
-  background: transparent;
-  border: 1px solid var(--silver);
-  color: var(--paper);
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 1px solid var(--paper);
+  color: var(--ink);
   width: 44px;
   height: 44px;
-  font-size: 22px;
 }
 
 @media (min-width: 1600px) {
@@ -1444,7 +1413,6 @@ section {
 
   .header nav .nav-rsvp {
     padding: 10px 13px;
-    gap: 17px;
   }
 
   .hero {
@@ -1923,13 +1891,6 @@ section {
     line-height: 1.35;
   }
 
-  .footer-arrow {
-    font-size: 54px;
-    min-width: 44px;
-    min-height: 44px;
-    line-height: 1.2;
-  }
-
   .footer-bottom {
     flex-wrap: wrap;
     gap: 1px 18px;
@@ -1986,7 +1947,6 @@ section {
 
   .opening-enter {
     font-size: 15px;
-    gap: 40px;
     margin-bottom: 15px;
   }
 
@@ -2128,10 +2088,6 @@ section {
 
   .footer-heading h2 {
     font-size: 5.5vw;
-  }
-
-  .footer-arrow {
-    font-size: 44px;
   }
 }
 @media (max-height: 500px) and (orientation: landscape) {

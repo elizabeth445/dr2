@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { event } from '../config';
+import { Arrow } from './Arrow';
 export function Gallery() {
   const [selected, setSelected] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -50,9 +51,6 @@ export function Gallery() {
                 width="800"
                 height="1000"
               />
-              <span className="photo-expand" aria-hidden="true">
-                ↗
-              </span>
             </span>
             <span className="photo-caption">
               <span>{photo.title}</span>
@@ -94,13 +92,13 @@ export function Gallery() {
                 }
                 aria-label="Попереднє фото"
               >
-                ←
+                <Arrow direction="left" />
               </button>
               <button
                 onClick={() => setSelected((selected + 1) % event.photos.length)}
                 aria-label="Наступне фото"
               >
-                →
+                <Arrow direction="right" />
               </button>
             </div>
           </div>

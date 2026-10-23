@@ -50,7 +50,7 @@ export function Opening({ onClose }: { onClose: () => void }) {
     >
       <div className="opening-top">
         <button autoFocus onClick={close}>
-          Пропустити ↗
+          Пропустити
         </button>
       </div>
       <div className="opening-pass">
@@ -70,7 +70,7 @@ export function Opening({ onClose }: { onClose: () => void }) {
         </div>
       </div>
       <button className="opening-enter" onClick={close}>
-        Відкрити запрошення <span>↗</span>
+        Відкрити запрошення
       </button>
     </dialog>
   );

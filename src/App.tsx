@@ -7,6 +7,7 @@ import { Countdown } from './components/Countdown';
 import { Gallery } from './components/Gallery';
 import { Ticket } from './components/Ticket';
 import { RSVP } from './components/RSVP';
+import { Arrow } from './components/Arrow';
 import { useMotionPreference } from './hooks/useMotionPreference';
 import {
   dateLabel,
@@ -93,7 +94,7 @@ function App() {
           <a href="#details">Деталі</a>
           <a href="#mood">Настрій</a>
           <a className="nav-rsvp" href="#rsvp">
-            Я буду <span>↗</span>
+            Я буду
           </a>
         </nav>
       </header>
@@ -117,7 +118,7 @@ function App() {
                 <br />І ти — його найважливіша частина.
               </p>
               <a className="button button-dark hero-cta" href="#rsvp">
-                Звісно, я буду <span>↗</span>
+                Звісно, я буду
               </a>
             </div>
             <div className="hero-art">
@@ -154,7 +155,7 @@ function App() {
               буде зовсім іншою.
             </span>
             <a href="#message" className="scroll-cue" aria-label="Читати запрошення">
-              ↓
+              <Arrow direction="down" />
             </a>
           </div>
         </section>
@@ -183,9 +184,7 @@ function App() {
               <span className="red">вже свято.</span>
             </h2>
             <p>{event.message}</p>
-            <span className="signature">
-              Твоя {event.name} <span aria-hidden="true">↗</span>
-            </span>
+            <span className="signature">Твоя {event.name}</span>
           </div>
         </section>
         <Countdown />
@@ -210,7 +209,7 @@ function App() {
                   {weekdayLabel.charAt(0).toUpperCase() + weekdayLabel.slice(1)}. Вечір для нас.
                 </p>
                 <button className="text-link" onClick={downloadCalendar}>
-                  Додати в календар <span>↗</span>
+                  Додати в календар
                 </button>
               </div>
             </div>
@@ -231,7 +230,7 @@ function App() {
                 </p>
                 {routeUrl && (
                   <a className="text-link" href={routeUrl} target="_blank" rel="noreferrer">
-                    Прокласти маршрут ↗
+                    Прокласти маршрут
                   </a>
                 )}
               </div>
@@ -289,20 +288,15 @@ function App() {
               <br />
               <span className="red">ОБІЙМЕМОСЬ.</span>
             </h2>
-            <a
-              href="#rsvp"
-              className="footer-arrow"
-              aria-label="Перейти до відповіді на запрошення"
-            >
-              ↗
-            </a>
           </div>
           <div className="footer-bottom">
             <span>
               З любов’ю, {event.name}. {shortDate}.{eventYear} · {event.city}
             </span>
-            <button onClick={playOpening}>Повторити початок ↺</button>
-            <a href="#main">Нагору ↑</a>
+            <button onClick={playOpening}>Повторити початок</button>
+            <a href="#main">
+              Нагору <Arrow direction="up" />
+            </a>
           </div>
         </footer>
       </main>
