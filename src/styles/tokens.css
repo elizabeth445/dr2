@@ -1,7 +1,8 @@
 :root {
   --paper: #f1efe9;
   --ink: #191917;
-  --red: #c72c33;
+  --burgundy: #61182d;
+  --red: var(--burgundy);
   --lime: #d9f36f;
   --silver: #c9c8c2;
   --muted: #686762;

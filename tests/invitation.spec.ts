@@ -140,7 +140,7 @@ test('dress colors update the lighting and accessible outfit advice', async ({ p
     await page
       .locator('.dress-code')
       .evaluate((el) => getComputedStyle(el).getPropertyValue('--look-color').trim()),
-  ).toBe('#a32232');
+  ).toBe('#61182d');
   await palette.getByRole('button', { name: 'Сріблястий', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(palette.locator('[aria-pressed="true"]')).toHaveCount(1);
