@@ -25,6 +25,13 @@ test('responsive composition at every required width', async ({ page }, info) =>
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(
       await page
+        .locator('.dress-palette, .color-name')
+        .evaluateAll((els) =>
+          els.filter((el) => el.scrollWidth > el.clientWidth + 2).map((el) => el.textContent),
+        ),
+    ).toEqual([]);
+    expect(
+      await page
         .locator('h1,h2,h3,.hero-line,.ticket-title')
         .evaluateAll((els) =>
           els.filter((e) => e.scrollWidth > e.clientWidth + 2).map((e) => e.textContent),
@@ -54,6 +61,72 @@ test('opening can be skipped, replayed and closed with Escape', async ({ page })
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog', { name: 'Особисте запрошення' })).not.toBeVisible();
   await expect(page.locator('#hero-title')).toBeFocused();
+});
+
+test('envelope opens automatically and respects reduced motion', async ({ page }, info) => {
+  await page.goto('/');
+  const envelope = page.getByRole('dialog', { name: 'Особисте запрошення' });
+  await expect(envelope).toBeVisible();
+  if (info.project.name === 'reduced-motion') {
+    await page.waitForTimeout(3500);
+    await expect(envelope).toBeVisible();
+    const audit = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze();
+    expect(
+      audit.violations.map((violation) => ({
+        id: violation.id,
+        nodes: violation.nodes.map((node) => ({
+          target: node.target,
+          summary: node.failureSummary,
+        })),
+      })),
+    ).toEqual([]);
+    await page.getByRole('button', { name: 'Відкрити запрошення' }).click();
+  }
+  await expect(envelope).not.toBeVisible({ timeout: 6000 });
+  await expect(page.locator('#hero-title')).toBeFocused();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+});
+
+test('wax seal opens the envelope and motion preference can change mid-opening', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Відкрити конверт' }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible({ timeout: 4000 });
+  await page.getByRole('button', { name: 'Повторити початок' }).click();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.getByRole('dialog', { name: 'Особисте запрошення' })).toBeVisible();
+  await page.getByRole('button', { name: 'Відкрити конверт' }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.locator('#hero-title')).toBeFocused();
+});
+
+test('dress colors update the lighting and accessible outfit advice', async ({ page }) => {
+  await enter(page);
+  const palette = page.getByRole('group', { name: 'Кольори дрес-коду' });
+  await expect(palette.getByRole('button')).toHaveCount(5);
+  await palette.getByRole('button', { name: 'Вишневий', exact: true }).click();
+  await expect(palette.getByRole('button', { name: 'Вишневий', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(page.locator('.dress-response')).toContainText('подружиться з тортом');
+  expect(
+    await page
+      .locator('.dress-code')
+      .evaluate((el) => getComputedStyle(el).getPropertyValue('--look-color').trim()),
+  ).toBe('#a32232');
+  await palette.getByRole('button', { name: 'Сріблястий', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(palette.locator('[aria-pressed="true"]')).toHaveCount(1);
+  await expect(page.locator('.dress-response')).toContainText('Лови світло диско-кулі');
+  expect(
+    await page
+      .locator('.dress-code')
+      .evaluate((el) => getComputedStyle(el).getPropertyValue('--look-color').trim()),
+  ).toBe('#c9c8c2');
 });
 
 test('gallery opens, navigates, closes and restores focus', async ({ page }) => {
@@ -97,7 +170,7 @@ test('RSVP validates, saves, reloads and edits attendance', async ({ page }) => 
   await page.getByLabel('Пару слів Софії').fill('До зустрічі!');
   await page.getByRole('button', { name: 'Зберегти мою відповідь' }).click();
   await expect(page.getByRole('heading', { name: 'До зустрічі, Марія!' })).toBeVisible();
-  await expect(page.getByRole('status')).toContainText('Софія ще не отримала');
+  await expect(page.locator('#rsvp').getByRole('status')).toContainText('Софія ще не отримала');
   await enter(page);
   await expect(page.getByRole('heading', { name: 'До зустрічі, Марія!' })).toBeVisible();
   await page.getByRole('button', { name: 'Змінити відповідь' }).click();

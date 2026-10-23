@@ -8,6 +8,7 @@ import { Gallery } from './components/Gallery';
 import { Ticket } from './components/Ticket';
 import { RSVP } from './components/RSVP';
 import { Arrow } from './components/Arrow';
+import { DressCode } from './components/DressCode';
 import { useMotionPreference } from './hooks/useMotionPreference';
 import {
   dateLabel,
@@ -235,22 +236,7 @@ function App() {
                 )}
               </div>
             </div>
-            <div className="detail-row">
-              <span className="detail-label">Дрес-код</span>
-              <div>
-                <h3>{event.dressCode}</h3>
-                <p>{event.dressNote}</p>
-                <div
-                  className="dress-swatches"
-                  role="img"
-                  aria-label="Кольори настрою: чорний, червоний, срібний"
-                >
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
+            <DressCode />
           </div>
         </section>
         <section className="schedule section-pad">
