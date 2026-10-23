@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { event, dateLabel } from '../config';
+import { Star } from './Star';
 type Response = {
   version: 1;
   name: string;
@@ -61,9 +62,7 @@ export function RSVP() {
           Дай знати до {dateLabel(event.rsvpDeadline + 'T12:00:00+02:00')}.<br />Я прибережу для
           тебе місце в цьому вечорі.
         </p>
-        <span className="rsvp-flower" aria-hidden="true">
-          ✳
-        </span>
+        <Star className="rsvp-flower" />
       </div>
       <div className="rsvp-panel">
         {editing ? (

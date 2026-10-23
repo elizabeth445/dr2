@@ -12,6 +12,7 @@ export function Opening({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const el = dialog.current;
     el?.showModal();
+    el?.focus({ preventScroll: true });
     const old = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
@@ -66,9 +67,7 @@ export function Opening({ onClose }: { onClose: () => void }) {
       }}
     >
       <div className="opening-top">
-        <button autoFocus onClick={close}>
-          Пропустити
-        </button>
+        <button onClick={close}>Пропустити</button>
       </div>
       <div className="opening-scene">
         <div className="envelope">

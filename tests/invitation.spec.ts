@@ -25,7 +25,7 @@ test('responsive composition at every required width', async ({ page }, info) =>
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(
       await page
-        .locator('.dress-palette, .color-name')
+        .locator('.dress-palette, .color-name, .button, .attendance label, .field-label')
         .evaluateAll((els) =>
           els.filter((el) => el.scrollWidth > el.clientWidth + 2).map((el) => el.textContent),
         ),
@@ -80,7 +80,14 @@ test('responsive composition at every required width', async ({ page }, info) =>
 test('opening can be skipped, replayed and closed with Escape', async ({ page }) => {
   await enter(page);
   await page.getByRole('button', { name: 'Повторити початок' }).click();
-  await expect(page.getByRole('dialog', { name: 'Особисте запрошення' })).toBeVisible();
+  const dialog = page.getByRole('dialog', { name: 'Особисте запрошення' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toBeFocused();
+  const skip = page.getByRole('button', { name: 'Пропустити' });
+  expect(await skip.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe('none');
+  await page.keyboard.press('Tab');
+  await expect(skip).toBeFocused();
+  expect(await skip.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe('solid');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog', { name: 'Особисте запрошення' })).not.toBeVisible();
   await expect(page.locator('#hero-title')).toBeFocused();
@@ -172,6 +179,7 @@ test('personal ticket reveals its secret and resets', async ({ page }) => {
   await enter(page);
   await page.getByRole('button', { name: 'ВІДІРВИ МЕНЕ' }).click();
   await expect(page.locator('#ticket-secret')).toBeVisible();
+  await expect(page.locator('#ticket-secret svg.ticket-secret-star')).toBeVisible();
   await expect(page.getByRole('button', { name: 'ПОВТОРИТИ', exact: true })).toHaveAttribute(
     'aria-expanded',
     'true',
@@ -191,6 +199,14 @@ test('RSVP validates, saves, reloads and edits attendance', async ({ page }) => 
   await expect(page.getByRole('alert')).toContainText('Напиши');
   await page.getByLabel('Твоє ім’я').fill('Марія');
   await page.getByLabel('Пару слів Софії').fill('До зустрічі!');
+  const fieldGap = await page.locator('#guest-message').evaluate((el) => {
+    const field = el.getBoundingClientRect();
+    const label = document.querySelector('label[for="guest-message"]')!.getBoundingClientRect();
+    const style = getComputedStyle(el);
+    const ring = parseFloat(style.outlineOffset) + parseFloat(style.outlineWidth);
+    return field.top - ring - label.bottom;
+  });
+  expect(fieldGap).toBeGreaterThanOrEqual(6);
   await page.getByRole('button', { name: 'Зберегти мою відповідь' }).click();
   await expect(page.getByRole('heading', { name: 'До зустрічі, Марія!' })).toBeVisible();
   await expect(page.locator('#rsvp').getByRole('status')).toContainText('Софія ще не отримала');
@@ -236,6 +252,8 @@ test('accessibility audit and keyboard navigation', async ({ page }) => {
 
 test('gallery swipes on touch and motion respects preference', async ({ page }, info) => {
   await enter(page);
+  await expect(page.locator('svg.rsvp-flower')).toBeVisible();
+  expect(await page.locator('body').innerText()).not.toMatch(/[✳✴⭐✨]/);
   const reduced = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
   expect(reduced).toBe(info.project.name === 'reduced-motion');
   if (reduced) {

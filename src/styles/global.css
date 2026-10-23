@@ -41,8 +41,8 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid var(--red);
-  outline-offset: 6px;
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
 }
 
 ::selection {
@@ -148,7 +148,10 @@ section {
 }
 
 .header nav a {
-  padding: 12px 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 0;
 }
 
 .header nav .nav-rsvp {
@@ -199,12 +202,13 @@ section {
 }
 
 .button {
-  min-height: 54px;
+  min-height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 24px;
+  padding: 12px 22px;
   font-size: 16px;
+  line-height: 1.4;
   border: 1px solid transparent;
   transition:
     background 0.2s,
@@ -227,7 +231,6 @@ section {
 
 .hero-cta {
   margin-top: 30px;
-  min-width: 246px;
 }
 
 .hero-art {
@@ -1009,12 +1012,13 @@ section {
   position: relative;
 }
 
-.ticket-secret > span:first-child {
+.ticket-secret-star {
   position: absolute;
   left: 0;
   top: 21px;
   color: var(--red);
-  font-size: 27px;
+  width: 27px;
+  height: 27px;
 }
 
 .ticket-secret p {
@@ -1061,11 +1065,10 @@ section {
 
 .rsvp-flower {
   display: block;
-  font-size: 100px;
-  line-height: 1;
+  width: 100px;
+  height: 100px;
   margin-top: 55px;
   color: var(--lime);
-  width: max-content;
   transform: rotate(12deg);
 }
 
@@ -1136,15 +1139,19 @@ section {
   gap: 15px;
   font-size: 18px;
   margin-top: 22px;
+  margin-bottom: 12px;
+  line-height: 1.45;
+  align-items: baseline;
 }
 
 .field-label span {
   font-size: 12px;
-  margin-top: 3px;
+  margin-top: 0;
 }
 
 .rsvp input:not([type='radio']):not([type='checkbox']),
 .rsvp textarea {
+  display: block;
   width: 100%;
   border: 0;
   border-bottom: 1px solid #f1efe980;
@@ -1152,6 +1159,7 @@ section {
   color: var(--paper);
   padding: 13px 0;
   font-size: 17px;
+  line-height: 1.5;
   resize: vertical;
   min-height: 50px;
 }
@@ -1165,7 +1173,7 @@ section {
 .rsvp input:focus-visible,
 .rsvp textarea:focus-visible {
   outline-color: var(--lime);
-  outline-offset: 6px;
+  outline-offset: 3px;
 }
 
 .button-lime {
@@ -1180,7 +1188,7 @@ section {
 .submit {
   width: 100%;
   margin-top: 29px;
-  min-height: 58px;
+  min-height: 54px;
 }
 
 .storage-note {
@@ -1285,12 +1293,13 @@ section {
 .footer-bottom button {
   background: none;
   border: 0;
-  font-size: 13px;
+  font-size: 14px;
   padding: 12px 0;
   min-height: 44px;
 }
 
 .footer-bottom a {
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1330,6 +1339,10 @@ section {
   background: #3d101f;
 }
 
+.opening:focus {
+  outline: none;
+}
+
 .opening-top {
   width: 100%;
   display: flex;
@@ -1343,8 +1356,9 @@ section {
   color: var(--paper);
   border: 0;
   min-height: 44px;
-  padding: 12px 0 12px 20px;
-  font-size: 14px;
+  padding: 10px 12px;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .opening-scene {
@@ -1675,7 +1689,7 @@ section {
 
   .header nav {
     gap: 18px;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .header nav .nav-rsvp {
@@ -1707,7 +1721,6 @@ section {
 
   .hero-cta {
     margin-top: 22px;
-    min-width: 235px;
   }
 
   .hero-art {
@@ -2035,7 +2048,7 @@ section {
   }
 
   .ticket-stub > span:first-child {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .ticket-stub .barcode {
@@ -2098,7 +2111,8 @@ section {
     position: absolute;
     right: 0;
     top: 0;
-    font-size: 36px;
+    width: 36px;
+    height: 36px;
     margin: 0;
   }
 
@@ -2172,20 +2186,16 @@ section {
   }
 
   .footer-bottom button {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .footer-bottom a {
     margin-left: auto;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .opening {
     padding: 16px 24px;
-  }
-
-  .opening-top button {
-    font-size: 13px;
   }
 
   .opening-scene {
@@ -2288,7 +2298,7 @@ section {
   }
 
   .color-name {
-    font-size: 12px;
+    font-size: 13px;
     padding-top: 9px;
   }
 
@@ -2380,16 +2390,12 @@ section {
     margin-top: 0;
   }
 
-  .rsvp-flower {
-    font-size: 40px;
-  }
-
   .attendance {
     gap: 7px;
   }
 
   .attendance > label {
-    font-size: 12px;
+    font-size: 14px;
     padding: 7px 4px;
   }
 

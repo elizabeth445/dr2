@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { event, shortDate, timeLabel, eventYear } from '../config';
+import { Star } from './Star';
 export function Ticket() {
   const [open, setOpen] = useState(false);
   return (
@@ -34,7 +35,7 @@ export function Ticket() {
         </button>
       </div>
       <div className={`ticket-secret ${open ? 'visible' : ''}`} id="ticket-secret" hidden={!open}>
-        <span aria-hidden="true">✳</span>
+        <Star className="ticket-secret-star" />
         <p>{event.secret}</p>
         <span className="signature">З любов’ю, {event.name}</span>
       </div>
