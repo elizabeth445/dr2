@@ -10,11 +10,11 @@ export function DressCode() {
       className="detail-row dress-code"
       style={{ '--look-color': look?.hex || '#c9c8c2' } as CSSProperties}
     >
-      <span className="detail-label">Дрес-код</span>
       <div className="dress-content">
         <div className="dress-heading">
           <div>
-            <h3>{event.dressCode}</h3>
+            <h3>Дрес-код</h3>
+            <p className="dress-subtitle">{event.dressCode}</p>
             <p>{event.dressNote}</p>
             <p className="dress-instruction" id="dress-instruction">
               Натисни на колір — приміряй настрій.

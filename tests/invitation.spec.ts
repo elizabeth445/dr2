@@ -30,6 +30,29 @@ test('responsive composition at every required width', async ({ page }, info) =>
           els.filter((el) => el.scrollWidth > el.clientWidth + 2).map((el) => el.textContent),
         ),
     ).toEqual([]);
+    const alignment = await page.locator('.dress-content').evaluate((el) => {
+      const content = el.getBoundingClientRect();
+      const section = el.closest('.dress-code')!.getBoundingClientRect();
+      const heading = el.querySelector('h3')!.getBoundingClientRect();
+      const firstCard = el.querySelector('.color-card')!.getBoundingClientRect();
+      const cards = [...el.querySelectorAll('.color-card')].map((card) =>
+        card.getBoundingClientRect(),
+      );
+      return {
+        contentCenter: Math.abs(content.x + content.width / 2 - section.x - section.width / 2),
+        headingCenter: Math.abs(heading.x + heading.width / 2 - content.x - content.width / 2),
+        firstRow: cards.filter((card) => Math.abs(card.top - firstCard.top) < 2).length,
+      };
+    });
+    expect(alignment.contentCenter).toBeLessThan(2);
+    expect(alignment.headingCenter).toBeLessThan(2);
+    expect(alignment.firstRow).toBe(width <= 700 ? 3 : 5);
+    if (width >= 768) {
+      const tops = await page
+        .locator('.details-grid > .detail-row:not(.dress-code) h3')
+        .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top));
+      expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(2);
+    }
     expect(
       await page
         .locator('h1,h2,h3,.hero-line,.ticket-title')
@@ -63,13 +86,13 @@ test('opening can be skipped, replayed and closed with Escape', async ({ page })
   await expect(page.locator('#hero-title')).toBeFocused();
 });
 
-test('envelope opens automatically and respects reduced motion', async ({ page }, info) => {
+test('envelope waits for a click and respects reduced motion', async ({ page }, info) => {
   await page.goto('/');
   const envelope = page.getByRole('dialog', { name: 'Особисте запрошення' });
   await expect(envelope).toBeVisible();
+  await page.waitForTimeout(3500);
+  await expect(envelope).toBeVisible();
   if (info.project.name === 'reduced-motion') {
-    await page.waitForTimeout(3500);
-    await expect(envelope).toBeVisible();
     const audit = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .analyze();
@@ -82,8 +105,8 @@ test('envelope opens automatically and respects reduced motion', async ({ page }
         })),
       })),
     ).toEqual([]);
-    await page.getByRole('button', { name: 'Відкрити запрошення' }).click();
   }
+  await page.getByRole('button', { name: 'Відкрити запрошення' }).click();
   await expect(envelope).not.toBeVisible({ timeout: 6000 });
   await expect(page.locator('#hero-title')).toBeFocused();
   expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
